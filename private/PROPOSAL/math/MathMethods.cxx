@@ -258,6 +258,10 @@ double NewtonRaphson(std::function<double(double)> func,
             // convergence criterion reached
             return rts;
         }
+        // cyk modify
+        if(rts/std::abs(dx)>4.5e15){
+            return rts;
+        }
         f = func(rts);
         df = dfunc(rts);
         // update bracket
