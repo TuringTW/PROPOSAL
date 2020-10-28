@@ -570,6 +570,7 @@ Secondaries Sector::Propagate(
             = EnergyInteraction(p_condition->GetEnergy(), rnd);
 
         // border_distance = dist_limit - p_condition->GetPropagatedDistance();
+        border_distance = border_distance - displacement;
         LossEnergies[LossType::Distance]
             = EnergyDistance(p_condition->GetEnergy(), border_distance);
 
