@@ -44,7 +44,8 @@ CrossSection* AnnihilationFactory::CreateAnnihilation(const ParticleDef& particl
 
     if (it != annihilation_map_enum_.end())
     {
-        return new AnnihilationIntegral(*it->second(particle_def, medium, def.multiplier));
+        std::unique_ptr<Annihilation> param(it->second(particle_def, medium, def.multiplier)); 
+        return new AnnihilationIntegral(*param);
     } else
     {
         log_fatal("Annihilation %s not registered!", typeid(def.parametrization).name());
@@ -67,7 +68,8 @@ CrossSection* AnnihilationFactory::CreateAnnihilation(const ParticleDef& particl
 
     if (it != annihilation_map_enum_.end())
     {
-        return new AnnihilationInterpolant(*it->second(particle_def, medium, def.multiplier), interpolation_def);
+        std::unique_ptr<Annihilation> param(it->second(particle_def, medium, def.multiplier)); 
+        return new AnnihilationInterpolant(*param, interpolation_def);
     } else
     {
         log_fatal("Annihilation %s not registered!", typeid(def.parametrization).name());

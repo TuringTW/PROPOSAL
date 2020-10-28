@@ -69,10 +69,9 @@ CrossSection* PhotoPairFactory::CreatePhotoPair(const ParticleDef& particle_def,
 
     if (it != photopair_map_enum_.end())
     {
-        PhotoAngleDistribution* photoangle = Get().CreatePhotoAngleDistribution(def.photoangle, particle_def, medium);
-        PhotoPairIntegral* photopair = new PhotoPairIntegral(*it->second(particle_def, medium, def.multiplier), *photoangle);
-        delete photoangle;
-        return photopair;
+        std::unique_ptr<PhotoAngleDistribution> photoangle(Get().CreatePhotoAngleDistribution(def.photoangle, particle_def, medium));
+        std::unique_ptr<PhotoPairProduction> param(it->second(particle_def, medium, def.multiplier)); 
+        return new PhotoPairIntegral(*param, *photoangle);;
     } else
     {
         log_fatal("PhotoPair %s not registered!", typeid(def.parametrization).name());
@@ -95,10 +94,9 @@ CrossSection* PhotoPairFactory::CreatePhotoPair(const ParticleDef& particle_def,
 
     if (it != photopair_map_enum_.end())
     {
-        PhotoAngleDistribution* photoangle = Get().CreatePhotoAngleDistribution(def.photoangle, particle_def, medium);
-        PhotoPairInterpolant* photopair = new PhotoPairInterpolant(*it->second(particle_def, medium, def.multiplier), *photoangle, interpolation_def);
-        delete photoangle;
-        return photopair;
+        std::unique_ptr<PhotoAngleDistribution> photoangle(Get().CreatePhotoAngleDistribution(def.photoangle, particle_def, medium));
+        std::unique_ptr<PhotoPairProduction> param(it->second(particle_def, medium, def.multiplier)); 
+        return new PhotoPairInterpolant(*param, *photoangle, interpolation_def);;
     } else
     {
         log_fatal("PhotoPair %s not registered!", typeid(def.parametrization).name());

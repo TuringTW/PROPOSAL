@@ -45,7 +45,8 @@ CrossSection* MupairProductionFactory::CreateMupairProduction(const ParticleDef&
 
     if (it != mupair_map_enum_.end())
     {
-        return new MupairIntegral(*it->second.first(particle_def, medium, cuts, def.multiplier, def.particle_output));
+        std::unique_ptr<MupairProduction> param(it->second.first(particle_def, medium, cuts, def.multiplier, def.particle_output)); 
+        return new MupairIntegral(*param);
     } else
     {
         log_fatal("MupairProduction %s not registerd!", typeid(def.parametrization).name());
@@ -69,7 +70,8 @@ CrossSection* MupairProductionFactory::CreateMupairProduction(const ParticleDef&
 
     if (it != mupair_map_enum_.end())
     {
-        return new MupairInterpolant(*it->second.second(particle_def, medium, cuts, def.multiplier, def.particle_output, interpolation_def), interpolation_def);
+        std::unique_ptr<MupairProduction> param(it->second.second(particle_def, medium, cuts, def.multiplier, def.particle_output, interpolation_def)); 
+        return new MupairInterpolant(*param, interpolation_def);
     } else
     {
         log_fatal("MupairProduction %s not registered!", typeid(def.parametrization).name());

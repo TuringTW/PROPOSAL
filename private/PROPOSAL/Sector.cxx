@@ -554,7 +554,7 @@ Secondaries Sector::Propagate(
     Secondaries secondaries(std::make_shared<ParticleDef>(particle_def_));
 
     auto p_condition = std::make_shared<DynamicData>(p_initial);
-    double dist_limit{ p_initial.GetPropagatedDistance() + border_distance };
+    // double dist_limit{ p_initial.GetPropagatedDistance() + border_distance };
     double rnd;
     int minimalLoss;
     std::array<double, 4> LossEnergies;
@@ -569,7 +569,8 @@ Secondaries Sector::Propagate(
         LossEnergies[LossType::Interaction]
             = EnergyInteraction(p_condition->GetEnergy(), rnd);
 
-        border_distance = dist_limit - p_condition->GetPropagatedDistance();
+        // border_distance = dist_limit - p_condition->GetPropagatedDistance();
+        border_distance = border_distance - displacement;
         LossEnergies[LossType::Distance]
             = EnergyDistance(p_condition->GetEnergy(), border_distance);
 

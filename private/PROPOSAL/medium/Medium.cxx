@@ -339,6 +339,7 @@ void Medium::SetSumNucleons(double sumNucleons) {
 }
 
 void Medium::SetDensityDistribution(Density_distr& density_distr) {
+    delete dens_distr_; // delete original distribution
     dens_distr_ = density_distr.clone();
 }
 

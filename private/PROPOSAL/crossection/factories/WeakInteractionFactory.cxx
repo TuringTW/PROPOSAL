@@ -44,7 +44,8 @@ CrossSection* WeakInteractionFactory::CreateWeakInteraction(const ParticleDef& p
 
     if (it != weak_map_enum_.end())
     {
-        return new WeakIntegral(*it->second(particle_def, medium, def.multiplier));
+        std::unique_ptr<WeakInteraction> param(it->second(particle_def, medium, def.multiplier)); 
+        return new WeakIntegral(*param);
     } else
     {
         log_fatal("WeakInteraction %s not registered!", typeid(def.parametrization).name());
@@ -67,7 +68,8 @@ CrossSection* WeakInteractionFactory::CreateWeakInteraction(const ParticleDef& p
 
     if (it != weak_map_enum_.end())
     {
-        return new WeakInterpolant(*it->second(particle_def, medium, def.multiplier), interpolation_def);
+        std::unique_ptr<WeakInteraction> param(it->second(particle_def, medium, def.multiplier));
+        return new WeakInterpolant(*param, interpolation_def);
     } else
     {
         log_fatal("WeakInteraction %s not registered!", typeid(def.parametrization).name());

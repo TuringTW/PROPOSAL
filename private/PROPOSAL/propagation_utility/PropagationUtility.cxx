@@ -434,7 +434,9 @@ UtilityDecorator::UtilityDecorator(const Utility& utility)
 UtilityDecorator::UtilityDecorator(const UtilityDecorator& decorator)
     : utility_(*decorator.utility_.clone()) {}
 
-UtilityDecorator::~UtilityDecorator() {}
+UtilityDecorator::~UtilityDecorator() {
+    delete &utility_;
+}
 
 bool UtilityDecorator::operator==(
     const UtilityDecorator& utility_decorator) const {

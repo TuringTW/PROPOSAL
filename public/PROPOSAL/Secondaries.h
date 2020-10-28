@@ -88,7 +88,7 @@ public:
     void SetExitPoint(const DynamicData& exit_point);
     void SetClosestApproachPoint(const DynamicData& closest_approach_point);
 
-private:
+// private:
     std::vector<DynamicData> secondaries_;
     std::shared_ptr<ParticleDef> primary_def_;
 

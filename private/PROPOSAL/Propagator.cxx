@@ -520,9 +520,9 @@ double Propagator::CalculateEffectiveDistance(
 
     distance_to_detector
         = detector_->DistanceToBorder(particle_position, particle_direction)
-              .first;
+              .first + PARTICLE_POSITION_RESOLUTION;
 
-    if (distance_to_detector > 0) {
+    if (distance_to_detector > HALF_PRECISION) {
         return std::min(distance_to_detector, distance_to_sector_border);
     } else {
         return distance_to_sector_border;

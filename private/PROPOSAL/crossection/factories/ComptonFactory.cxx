@@ -56,7 +56,8 @@ CrossSection* ComptonFactory::CreateCompton(const ParticleDef& particle_def,
 
     if (it != compton_map_enum_.end())
     {
-        return new ComptonIntegral(*it->second(particle_def, medium, cuts, def.multiplier));
+        std::unique_ptr<Compton> param(it->second(particle_def, medium, cuts, def.multiplier));
+        return new ComptonIntegral(*param);
     } else
     {
         log_fatal("Compton %s not registered!", typeid(def.parametrization).name());
@@ -80,7 +81,8 @@ CrossSection* ComptonFactory::CreateCompton(const ParticleDef& particle_def,
 
     if (it != compton_map_enum_.end())
     {
-        return new ComptonInterpolant(*it->second(particle_def, medium, cuts, def.multiplier), interpolation_def);
+        std::unique_ptr<Compton> param(it->second(particle_def, medium, cuts, def.multiplier));
+        return new ComptonInterpolant(*param, interpolation_def);
     } else
     {
         log_fatal("Compton %s not registered!", typeid(def.parametrization).name());

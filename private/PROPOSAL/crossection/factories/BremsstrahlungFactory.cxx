@@ -61,7 +61,8 @@ CrossSection* BremsstrahlungFactory::CreateBremsstrahlung(const ParticleDef& par
 
     if (it != bremsstrahlung_map_enum_.end())
     {
-        return new BremsIntegral(*it->second(particle_def, medium, cuts, def.multiplier, def.lpm_effect));
+        std::unique_ptr<Bremsstrahlung> param(it->second(particle_def, medium, cuts, def.multiplier, def.lpm_effect)); 
+        return new BremsIntegral(*param);
     } else
     {
         log_fatal("Bremsstrahlung %s not registered!", typeid(def.parametrization).name());
@@ -85,8 +86,8 @@ CrossSection* BremsstrahlungFactory::CreateBremsstrahlung(const ParticleDef& par
 
     if (it != bremsstrahlung_map_enum_.end())
     {
-        return new BremsInterpolant(*it->second(particle_def, medium, cuts, def.multiplier, def.lpm_effect),
-                                    interpolation_def);
+        std::unique_ptr<Bremsstrahlung> param(it->second(particle_def, medium, cuts, def.multiplier, def.lpm_effect)); 
+        return new BremsInterpolant(*param, interpolation_def);
     } else
     {
         log_fatal("Bremsstrahlung %s not registered!", typeid(def.parametrization).name());

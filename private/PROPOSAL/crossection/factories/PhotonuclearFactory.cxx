@@ -143,15 +143,13 @@ CrossSection* PhotonuclearFactory::CreatePhotonuclear(const ParticleDef& particl
 
     if (it_q2 != photo_q2_map_enum_.end())
     {
-        ShadowEffect* shadow = Get().CreateShadowEffect(def.shadow);
-
-        PhotoIntegral* photo =
-            new PhotoIntegral(*it_q2->second.first(particle_def, medium, cuts, def.multiplier, *shadow));
-        delete shadow;
-        return photo;
+        std::unique_ptr<ShadowEffect> shadow(Get().CreateShadowEffect(def.shadow));
+        std::unique_ptr<Photonuclear> param(it_q2->second.first(particle_def, medium, cuts, def.multiplier, *shadow)); 
+        return new PhotoIntegral(*param);
     } else if (it_photo != photo_real_map_enum_.end())
     {
-        return new PhotoIntegral(*it_photo->second(particle_def, medium, cuts, def.multiplier, def.hard_component));
+        std::unique_ptr<Photonuclear> param(it_photo->second(particle_def, medium, cuts, def.multiplier, def.hard_component)); 
+        return new PhotoIntegral(*param);
     } else
     {
         log_fatal("Photonuclear %s not registered!", typeid(def.parametrization).name());
@@ -176,17 +174,13 @@ CrossSection* PhotonuclearFactory::CreatePhotonuclear(const ParticleDef& particl
 
     if (it_q2 != photo_q2_map_enum_.end())
     {
-        ShadowEffect* shadow = Get().CreateShadowEffect(def.shadow);
-
-        PhotoInterpolant* photo = new PhotoInterpolant(
-            *it_q2->second.second(particle_def, medium, cuts, def.multiplier, *shadow, interpolation_def),
-            interpolation_def);
-        delete shadow;
-        return photo;
+        std::unique_ptr<ShadowEffect> shadow(Get().CreateShadowEffect(def.shadow));
+        std::unique_ptr<Photonuclear> param(it_q2->second.second(particle_def, medium, cuts, def.multiplier, *shadow, interpolation_def)); 
+        return new PhotoInterpolant(*param, interpolation_def);
     } else if (it_photo != photo_real_map_enum_.end())
     {
-        return new PhotoInterpolant(*it_photo->second(particle_def, medium, cuts, def.multiplier, def.hard_component),
-                                    interpolation_def);
+        std::unique_ptr<Photonuclear> param(it_photo->second(particle_def, medium, cuts, def.multiplier, def.hard_component)); 
+        return new PhotoInterpolant(*param, interpolation_def);
     } else
     {
         log_fatal("Photonuclear %s not registered!", typeid(def.parametrization).name());

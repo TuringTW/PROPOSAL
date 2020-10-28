@@ -46,7 +46,8 @@ CrossSection* EpairProductionFactory::CreateEpairProduction(const ParticleDef& p
 
     if (it != epair_map_enum_.end())
     {
-        return new EpairIntegral(*it->second.first(particle_def, medium, cuts, def.multiplier, def.lpm_effect));
+        std::unique_ptr<EpairProduction> param(it->second.first(particle_def, medium, cuts, def.multiplier, def.lpm_effect));
+        return new EpairIntegral(*param);
     } else
     {
         log_fatal("EpairProduction %s not registered!", typeid(def.parametrization).name());
@@ -70,7 +71,8 @@ CrossSection* EpairProductionFactory::CreateEpairProduction(const ParticleDef& p
 
     if (it != epair_map_enum_.end())
     {
-        return new EpairInterpolant(*it->second.second(particle_def, medium, cuts, def.multiplier, def.lpm_effect, interpolation_def), interpolation_def);
+        std::unique_ptr<EpairProduction> param(it->second.second(particle_def, medium, cuts, def.multiplier, def.lpm_effect, interpolation_def));
+        return new EpairInterpolant(*param, interpolation_def);
     } else
     {
         log_fatal("EpairProduction %s not registered!", typeid(def.parametrization).name());
