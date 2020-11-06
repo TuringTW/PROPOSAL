@@ -412,7 +412,7 @@ Secondaries Propagator::Propagate(
         secondaries_.SetExitPoint(*p_condition);
     }
 
-    secondaries_.DoDecay();
+    // secondaries_.DoDecay();
 
     n_th_call_ += 1.;
     double produced_particles_
