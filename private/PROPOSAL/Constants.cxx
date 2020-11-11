@@ -17,7 +17,7 @@ const double PROPOSAL::IPREC  = 1.e-6;      // integration precision
 const double PROPOSAL::IPREC2 = 1.e-6 * 10; // integration precision
 
 // precision parameters
-const double PROPOSAL::DOUBLE_PRECISION				= 1.e-14;
+const double PROPOSAL::DOUBLE_PRECISION				= 1.e-13;
 const double PROPOSAL::COMPUTER_PRECISION           = 1.e-10;
 const double PROPOSAL::HALF_PRECISION               = 1.e-5; // std::sqrt(computerPrecision);
 const double PROPOSAL::GEOMETRY_PRECISION           = 1.e-9;
