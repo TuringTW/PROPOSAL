@@ -46,6 +46,7 @@ extern const double IPREC;  // integration precision
 extern const double IPREC2; // integration precision
 
 // precision parameters
+extern const double DOUBLE_PRECISION;
 extern const double COMPUTER_PRECISION;
 extern const double HALF_PRECISION; // std::sqrt(computerPrecision);
 extern const double GEOMETRY_PRECISION;

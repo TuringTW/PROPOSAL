@@ -602,6 +602,10 @@ Secondaries Sector::Propagate(
                 displacement = border_distance;
             }
         }
+        // a small leap so that it can definitely enter next sector
+        if (minimalLoss == LossType::Distance){
+            displacement += (p_condition->GetPropagatedDistance()*DOUBLE_PRECISION);
+        }
 
         p_condition
             = DoContinuous(*p_condition, LossEnergies[minimalLoss], displacement);
